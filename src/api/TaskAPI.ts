@@ -1,11 +1,12 @@
 import api from "@/lib/axios"
 import { isAxiosError } from "axios"
-import { Project, Task, TaskFormData, tasksSchema } from "../types"
+import { Project, Task, TaskFormData, taskSchema, tasksSchema, taskStatus } from "../types"
 
 type CreateTaskType = {
     formData: TaskFormData,
     projectId: Project['_id'],
-    taskId: Task['_id']
+    taskId: Task['_id'],
+    status: taskStatus
 }
 export async function createTask({formData, projectId}: Pick<CreateTaskType, 'formData' | 'projectId'>){
     try {
@@ -38,7 +39,11 @@ export async function getTaskById({projectId, taskId} : Pick<CreateTaskType, 'pr
     try {
         const url = `/projects/${projectId}/tasks/${taskId}`
         const {data} = await api(url)
-        return data
+        const response = taskSchema.safeParse(data)
+        if(response.success){
+            return response.data
+        }
+        
     } catch (error) {
         if(isAxiosError(error) && error.response){
             throw new Error(error.response.data.error)
@@ -66,5 +71,18 @@ export async function deleteTask({projectId, taskId}: Pick<CreateTaskType, 'proj
             throw new Error(error.response.data.error)
         }
         
+    }
+}
+
+export async function updateTaskStatus({projectId, taskId, status}: Pick<CreateTaskType, 'projectId' | 'taskId' | 'status'> ){
+    try {
+        const url = `/projects/${projectId}/tasks/${taskId}/status`
+        const {data} = await api.patch(url, {status})
+        console.log(data)
+        return data
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
     }
 }

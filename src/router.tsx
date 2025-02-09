@@ -4,6 +4,8 @@ import DashboardView from "@/views/DashboardView"
 import CreateprojectView from "./views/projects/CreateprojectView"
 import EditProjectView from "./views/projects/EditProjectView"
 import ProjectDetailView from "./views/projects/ProjectDetailView"
+import AuthLayout from "./layouts/AuthLayout"
+import LoginView from "./views/auth/LoginView"
 
 export default function Router() {
   return (
@@ -14,6 +16,9 @@ export default function Router() {
                     <Route path="/projects/create" element={<CreateprojectView/>} />
                     <Route path="/projects/:projectId" element={<ProjectDetailView/>} />
                     <Route path="/projects/:projectId/edit" element={<EditProjectView/>} />
+                </Route>
+                <Route element={<AuthLayout/>}>
+                    <Route path={'/auth'} element={<LoginView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

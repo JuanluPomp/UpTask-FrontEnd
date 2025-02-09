@@ -25,6 +25,7 @@ export default function DashboardView() {
   })
 
   if(isLoading)return 'cargando...'
+  console.log(data)
   if(data) return (
     <>
         <h1 className="text-5xl font-black">Mis Proyectos</h1>

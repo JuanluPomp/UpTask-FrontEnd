@@ -60,11 +60,12 @@ export default function TaskModalDetails() {
         return <Navigate to={`/projects/${projectId}`}/>
     }
 
-    console.log(data)
+    const showModal = taskId ? true : false
+    console.log(showModal)
     
     if(data) return (
         <>
-            <Transition appear show={taskId ? true : false} as={Fragment}>
+            <Transition appear show={showModal} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() =>   navigate(location.pathname, {replace: true})}>
                     <Transition.Child
                         as={Fragment}
